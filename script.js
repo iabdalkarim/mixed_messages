@@ -1,77 +1,49 @@
-const quotes = [
-    "It takes courage to grow up and become who you really are. — E.E. Cummings",
-    "Your self-worth is determined by you. You don't have to depend on someone telling you who you are. — Beyoncé",
-    "Nothing is impossible. The word itself says 'I'm possible!' — Audrey Hepburn",
-    "Keep your face always toward the sunshine, and shadows will fall behind you. — Walt Whitman",
-    "You have brains in your head. You have feet in your shoes. You can steer yourself any direction you choose. You're on your own. And you know what you know. And you are the guy who'll decide where to go. — Dr. Seuss",
-    "Attitude is a little thing that makes a big difference. — Winston Churchill",
-    "To bring about change, you must not be afraid to take the first step. We will fail when we fail to try. — Rosa Parks",
-    "All our dreams can come true, if we have the courage to pursue them. — Walt Disney",
-    "Don't sit down and wait for the opportunities to come. Get up and make them. — Madam C.J. Walker",
-    "Champions keep playing until they get it right. — Billie Jean King",
-    "I am lucky that whatever fear I have inside me, my desire to win is always stronger. — Serena Williams",
-    "You are never too old to set another goal or to dream a new dream. — C.S. Lewis",
-    "It is during our darkest moments that we must focus to see the light. — Aristotle",
-    "Believe you can and you're halfway there. — Theodore Roosevelt",
-    "Life shrinks or expands in proportion to one’s courage. — Anaïs Nin",
-    "Just don't give up trying to do what you really want to do. Where there is love and inspiration, I don't think you can go wrong. — Ella Fitzgerald",
-    "Try to be a rainbow in someone's cloud. — Maya Angelou",
-    "If you don't like the road you're walking, start paving another one. — Dolly Parton",
-    "Real change, enduring change, happens one step at a time. — Ruth Bader Ginsburg",
-    "All dreams are within reach. All you have to do is keep moving towards them. — Viola Davis",
-    "It is never too late to be what you might have been. — George Eliot",
-    "When you put love out in the world it travels, and it can touch people and reach people in ways that we never even expected. — Laverne Cox",
-    "Give light and people will find the way. — Ella Baker",
-    "It always seems impossible until it's done. — Nelson Mandela",
-    "Don’t count the days, make the days count. — Muhammad Ali",
-    "If you risk nothing, then you risk everything. — Geena Davis",
-    "Definitions belong to the definers, not the defined. — Toni Morrison",
-    "When you have a dream, you've got to grab it and never let go. — Carol Burnett",
-    "Never allow a person to tell you no who doesn’t have the power to say yes. — Eleanor Roosevelt",
-    "When it comes to luck, you make your own. — Bruce Springsteen",
-    "If you're having fun, that's when the best memories are built. — Simone Biles",
-    "Failure is the condiment that gives success its flavor. — Truman Capote",
-    "Hard things will happen to us. We will recover. We will learn from it. We will grow more resilient because of it. — Taylor Swift",
-    "Your story is what you have, what you will always have. It is something to own. — Michelle Obama",
-    "To live is the rarest thing in the world. Most people just exist. — Oscar Wilde",
-    "You define beauty yourself, society doesn’t define your beauty. — Lady Gaga",
-    "Optimism is a happiness magnet. If you stay positive, good things and good people will be drawn to you. — Mary Lou Retton",
-    "You just gotta keep going and fighting for everything, and one day you’ll get to where you want. — Naomi Osaka",
-    "If you prioritize yourself, you are going to save yourself. — Gabrielle Union",
-    "No matter how far away from yourself you may have strayed, there is always a path back. You already know who you are and how to fulfill your destiny. — Oprah Winfrey",
-    "A problem is a chance for you to do your best. — Duke Ellington",
-    "You can’t turn back the clock. But you can wind it up again. — Bonnie Prudden",
-    "When you can’t find someone to follow, you have to find a way to lead by example. — Roxane Gay",
-    "There is no better compass than compassion. — Amanda Gorman",
-    "Stand before the people you fear and speak your mind – even if your voice shakes. — Maggie Kuhn",
-    "It’s a toxic desire to try to be perfect. I realized later in life that the challenge is not to be perfect. It’s to be whole. — Jane Fonda",
-    "Vitality shows not only in the ability to persist but in the ability to start over. — F. Scott Fitzgerald",
-    "The most common way people give up their power is by thinking they don’t have any. — Alice Walker",
-    "Love yourself first and everything else falls into line. — Lucille Ball",
-    "In three words I can sum up everything I've learned about life: It goes on. — Robert Frost",
-];
+const messageParts = {
+    destinies: {
+        prefix: "Your destiny is ",
+        messages: ["a dancing frog.", "a flying taco.", "a mysterious sock.", "a magical pickle.", "a talking lamp."],
+    },
+    predictions: {
+        prefix: "",
+        messages: [
+            "You will soon meet a dancing pancake.",
+            "A donut will appear in your dreams.",
+            "The spaghetti in your pocket will give you wisdom.",
+            "Beware of the jellyfish on a skateboard.",
+            "Your shoes will become sentient and start walking on their own.",
+        ],
+    },
+    quests: {
+        prefix: "Your next quest is to ",
+        messages: [
+            "talk to the cheese, it knows everything.",
+            "high-five a cactus.",
+            "whisper to the moon.",
+            "chase after a flying spaghetti monster.",
+            "hug a pizza for good luck.",
+        ],
+    },
+};
 
 class MixedMessage {
-    constructor(messages) {
-        this.lastRandNum = -1;
-        this.messages = messages;
+    constructor(messageParts) {
+        this.messageParts = messageParts;
     }
     getRandMessage() {
-        const rand = this.getRandomNum();
-        return this.messages[rand];
+        const msgArr = [];
+        for (const key in this.messageParts) {
+            const rand = this.getRandomNum(this.messageParts[key].messages.length);
+            msgArr.push(`${this.messageParts[key].prefix}${this.messageParts[key].messages[rand]}`);
+        }
+        return msgArr.join("\n");
     }
-    getRandomNum() {
-        let newRand = 0;
-        do {
-            newRand = Math.floor(Math.random() * this.messages.length);
-        } while (newRand === this.lastRandNum);
-        return newRand;
+    getRandomNum(len) {
+        return Math.floor(Math.random() * len);
     }
-    printRandMessage() {
-        console.log(`Your Today's Message "${this.getRandMessage()}"`);
+    print() {
+        console.log(this.getRandMessage());
     }
 }
 
-const mixedMessage = new MixedMessage(quotes);
-mixedMessage.printRandMessage();
-mixedMessage.printRandMessage();
+const mixedMessage = new MixedMessage(messageParts);
+mixedMessage.print();
